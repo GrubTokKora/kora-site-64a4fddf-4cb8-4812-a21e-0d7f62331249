@@ -1,0 +1,334 @@
+/* Jaiwai Thai Kitchen — extras on top of precompiled Tailwind (assets/styles.css) */
+:root {
+  scroll-behavior: smooth;
+  --header-scroll-offset: 5.5rem;
+}
+
+html {
+  scroll-padding-top: var(--header-scroll-offset);
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  background: #fbf6ee;
+  color: #2e2820;
+}
+
+.font-display {
+  font-family: "Baloo 2", sans-serif;
+}
+
+.font-hand {
+  font-family: "Caveat", cursive;
+}
+
+::selection {
+  background: #fbe38a;
+  color: #1a1714;
+}
+
+/* Brush underline motif */
+.brush {
+  position: relative;
+  display: inline-block;
+}
+
+.brush::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: -0.1em;
+  height: 0.32em;
+  background: #f4c430;
+  border-radius: 999px;
+  transform: rotate(-1.4deg);
+  z-index: -1;
+}
+
+.brush-red::after {
+  background: #e5283a;
+  opacity: 0.85;
+}
+
+/* Photo placeholder slots */
+.photo-slot {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(120% 120% at 20% 10%, #fdf0c2 0%, #f3eadb 45%, #e7decf 100%);
+}
+
+.photo-slot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#1a171408 1.4px, transparent 1.4px);
+  background-size: 14px 14px;
+}
+
+.photo-slot .ps-label {
+  position: relative;
+  z-index: 1;
+}
+
+/* Marquee */
+.marquee {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: jw-scroll 28s linear infinite;
+}
+
+@keyframes jw-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-wrap:hover .marquee {
+  animation-play-state: paused;
+}
+
+/* Reveal on scroll — visible by default; animate when supported */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: jw-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+}
+
+@keyframes jw-reveal {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* JS fallback for browsers without view-timeline */
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.js-reveal-pending {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.js-reveal-pending.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Spice chili */
+.chili-on path {
+  fill: #e5283a;
+  stroke: #c81e2f;
+}
+
+.chili-off path {
+  fill: none;
+  stroke: #d4c8b5;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -4px;
+  height: 2px;
+  background: #e5283a;
+  transition: right 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  right: 0;
+}
+
+.nav-link.is-active {
+  color: #e5283a;
+}
+
+/* Component-styled controls */
+.tab {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #4a4034;
+  background: #fff;
+  border: 2px solid #e7decf;
+  border-radius: 999px;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tab:hover {
+  border-color: #1a1714;
+}
+
+.tab.is-active {
+  background: #1a1714;
+  color: #fbf6ee;
+  border-color: #1a1714;
+}
+
+.field {
+  width: 100%;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+  color: #1a1714;
+  background: #fff;
+  border: 2px solid #e7decf;
+  border-radius: 16px;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field:focus {
+  border-color: #e5283a;
+  box-shadow: 0 0 0 4px #fdecee;
+}
+
+.menu-card {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0 #1a1714;
+}
+
+.menu-list-item {
+  border-bottom: 2px solid #e7decf;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.menu-list-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.footer-social-link {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: 2px solid rgba(251, 246, 238, 0.2);
+  color: #fbf6ee;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.footer-social-link:hover {
+  background: rgba(251, 246, 238, 0.1);
+  border-color: rgba(251, 246, 238, 0.4);
+}
+
+.footer-social-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+/* FAQ accordion */
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  background: #fff;
+  border: 2px solid #e7decf;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.faq-item.is-open {
+  border-color: #1a1714;
+  box-shadow: 4px 4px 0 #1a1714;
+}
+
+.faq-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.125rem 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.faq-trigger:hover {
+  background: #fbf6ee;
+}
+
+.faq-icon {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item.is-open .faq-icon {
+  transform: rotate(180deg);
+}
+
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item.is-open .faq-panel {
+  grid-template-rows: 1fr;
+}
+
+.faq-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.faq-panel-inner p {
+  padding: 0 1.25rem 1.125rem;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+
+  .reveal,
+  .js-reveal-pending {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .faq-panel,
+  .faq-icon {
+    transition: none;
+  }
+}

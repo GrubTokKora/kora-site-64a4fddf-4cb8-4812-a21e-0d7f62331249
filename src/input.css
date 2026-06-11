@@ -1,3 +1,57 @@
 @import "tailwindcss";
 @source "../**/*.html";
-@source "../assets/**/*.js";
+@source "../js/**/*.js";
+
+/* Migrated from root index.html tailwind.config theme.extend */
+@theme {
+  --color-chili: #e5283a;
+  --color-chili-50: #fdecee;
+  --color-chili-100: #fbd5d9;
+  --color-chili-300: #ef7884;
+  --color-chili-500: #e5283a;
+  --color-chili-600: #c81e2f;
+  --color-chili-700: #9e1626;
+
+  --color-noodle: #f4c430;
+  --color-noodle-100: #fdf0c2;
+  --color-noodle-300: #f8d453;
+  --color-noodle-400: #f4c430;
+  --color-noodle-500: #e0ac10;
+  --color-noodle-700: #8e6707;
+
+  --color-herb: #5e9e3f;
+  --color-herb-100: #e6f0d9;
+  --color-herb-500: #5e9e3f;
+  --color-herb-700: #3c6a28;
+
+  --color-curry: #e8862b;
+  --color-curry-100: #fcebd7;
+  --color-curry-500: #e8862b;
+  --color-curry-700: #a85b14;
+
+  --color-ink: #1a1714;
+  --color-cream: #fbf6ee;
+  --color-sand: #f3eadb;
+  --color-paper: #ffffff;
+
+  --color-n-100: #f3eee5;
+  --color-n-200: #e7decf;
+  --color-n-300: #d4c8b5;
+  --color-n-400: #b0a38c;
+  --color-n-500: #897b64;
+  --color-n-600: #675b49;
+  --color-n-700: #4a4034;
+
+  --font-display: "Baloo 2", sans-serif;
+  --font-body: "Nunito Sans", sans-serif;
+  --font-hand: "Caveat", cursive;
+
+  --radius-pill: 999px;
+  --radius-blob: 60% 40% 55% 45% / 55% 45% 55% 45%;
+
+  --shadow-pop: 4px 4px 0 #1a1714;
+  --shadow-pop-lg: 6px 6px 0 #1a1714;
+  --shadow-pop-red: 4px 4px 0 #e5283a;
+  --shadow-soft: 0 8px 20px rgba(38, 24, 12, 0.1);
+  --shadow-lift: 0 18px 40px rgba(38, 24, 12, 0.14);
+}
