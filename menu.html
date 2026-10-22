@@ -23,6 +23,7 @@
     "Restaurant",
     "LocalBusiness"
   ],
+  "@id": "https://jaiwai-thai-kitchen-live.askkoraai.com/#restaurant",
   "name": "Jaiwai Thai Kitchen",
   "description": "Curries, noodle dishes and other Thai standards in Georgetown, Texas.",
   "address": {
@@ -35,15 +36,13 @@
   },
   "telephone": "+15128680023",
   "servesCuisine": "Thai",
-  "url": "https://jaiwai-thai-kitchen-live.askkoraai.com/menu",
-  "hasMenu": "https://jaiwai-thai-kitchen-live.askkoraai.com/menu"
+  "url": "https://jaiwai-thai-kitchen-live.askkoraai.com/menu"
 }</script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link as="style" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&amp;family=Caveat:wght@500;600;700&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
 <noscript><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&amp;family=Caveat:wght@500;600;700&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&amp;display=swap" rel="stylesheet"/></noscript>
 <link href="assets/styles.css" rel="stylesheet"/>
-<link href="style.css" rel="stylesheet"/>
 </head>
 <body class="antialiased" data-page="menu">
 <header class="fixed top-0 inset-x-0 z-50 transition-all duration-300" id="nav">
@@ -90,7 +89,10 @@
         Order Online <i class="w-5 h-5" data-lucide="arrow-right"></i>
 </a>
 </div>
-<div id="menuPageSections"></div>
+<div id="menuPageSections">
+<!-- kora:data:menu layout="list" -->
+<!-- /kora:data:menu -->
+</div>
 </div>
 </main>
 <footer class="bg-ink text-cream pt-12 pb-8">
@@ -108,7 +110,6 @@
 <!-- KORA_BRANDING_FOOTER_END -->
 </footer>
 <script defer="" src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-<script defer="" src="js/menu-data.js"></script>
 <script defer="" src="js/main.js"></script>
 </body>
 </html>

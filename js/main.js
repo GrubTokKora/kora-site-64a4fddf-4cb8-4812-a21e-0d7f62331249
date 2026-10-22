@@ -12,42 +12,105 @@ const spiceRow = (n) =>
     ? `<span class="text-xs font-bold text-n-500 uppercase tracking-wide">No chili</span>`
     : Array.from({ length: 4 }, (_, i) => chiliSVG(i < n)).join("");
 
+/*
+ * The menu is drawn by Kora from the site's menu data into the kora:data:menu region on menu.html
+ * (sections, dishes, Thai names, prices). The homepage cards are filled from that same page, so the
+ * menu has one source. Spice levels have no field in Kora's menu data, so they live here; a dish
+ * missing from this list simply shows no spice row.
+ */
+const JAIWAI_SPICE = {
+  "Spring Rolls (Shrimp or Tofu)": 0,
+  "Egg Rolls (Pork or Vegetable)": 0,
+  "Cheese Rolls (Fried)": 0,
+  "Dumplings (Steam or Fried)": 0,
+  "Shrimp Tempura": 0,
+  "Chicken Satay": 1,
+  "Pork Skewers": 2,
+  "Tom Yum (Red Soup)": 3,
+  "Tom Kha (Coconut Soup)": 1,
+  "Thai Fried Rice": 0,
+  "Green Curry Fried Rice": 3,
+  "Basil Fried Rice": 3,
+  "Pineapple Fried Rice": 2,
+  "Tiger Cry (Regular / Rib-eye)": 3,
+  "Jaiwai Rib-eye Pad Kra Pow": 4,
+  "Jaiwai Special Pad Kra Pow": 3,
+  "Chicken Khao Soi (Regular / Fried Chicken)": 2,
+  "Grilled / Fried Salmon Paradise": 2,
+  "Papaya Salad": 3,
+  "Beef Nam Tok (Regular / Rib-eye)": 3,
+  "Green Curry": 3,
+  "Red Curry": 3,
+  "Yellow Curry": 2,
+  "Spicy Cashew Fever": 3,
+  "Buddha Delight": 0,
+  "Pad Kra Prow (Hot Basil)": 3,
+  "Beef Broccoli": 0,
+  "Sesame Teriyaki Chicken": 0,
+  "Pra Ram Chicken": 1,
+  "Prik King": 3,
+  "Pad Thai": 1,
+  "Pad Kee Mao (Drunken Noodles)": 4,
+  "Pad See Ew": 1,
+  "Angel Hair Pad Kee Mao": 4,
+  "Pad Woon Sen": 1,
+  "Mango Sticky Rice": 0,
+  "Kids Chicken Fried Rice": 0,
+  "Chicken Nuggets & French Fries": 0,
+};
+
 function parseMenuPrice(price) {
   const nums = (String(price).match(/\d+(?:\.\d+)?/g) || []).map(Number);
   return nums.length ? Math.max(...nums) : 0;
 }
 
-function getMenuCardItems(cat = "all", limit = null) {
-  let items = window.JAIWAI_MENU.filter((m) => cat === "all" || m.cat === cat);
+const escapeHTML = (s) =>
+  String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
-  if (limit) {
-    items = [...items]
-      .sort((a, b) => parseMenuPrice(b.price) - parseMenuPrice(a.price))
-      .slice(0, limit);
-  }
-
-  return items;
+/** Dishes as Kora rendered them: name, Thai name, description, price ("$19.99 / $29.99" when labelled). */
+function menuItemsFrom(root) {
+  return Array.from(root.querySelectorAll(".kora-menu__item")).map((li) => {
+    const text = (sel) => (li.querySelector(sel)?.textContent || "").trim();
+    const labelled = Array.from(li.querySelectorAll(".kora-menu__price-value")).map((v) => v.textContent.trim());
+    return {
+      name: text(".kora-menu__item-name"),
+      th: text(".kora-menu__item-note"),
+      desc: text(".kora-menu__item-desc"),
+      price: labelled.length ? labelled.join(" / ") : text(".kora-menu__item-price"),
+    };
+  });
 }
 
-function renderMenuCards(cat = "all", gridId = "menuGrid") {
+/** Homepage: the six priciest dishes from the menu page, as cards. */
+async function renderMenuCards(gridId = "menuGrid") {
   const grid = document.getElementById(gridId);
-  if (!grid || !window.JAIWAI_MENU) return;
+  if (!grid) return;
 
-  const previewLimit = document.getElementById("menuTabs") ? null : 6;
-  const items = getMenuCardItems(cat, previewLimit);
-  grid.innerHTML = items
+  let items;
+  try {
+    const res = await fetch("menu.html");
+    if (!res.ok) return;
+    const page = new DOMParser().parseFromString(await res.text(), "text/html");
+    items = menuItemsFrom(page);
+  } catch (e) {
+    return;
+  }
+
+  grid.innerHTML = [...items]
+    .sort((a, b) => parseMenuPrice(b.price) - parseMenuPrice(a.price))
+    .slice(0, 6)
     .map(
       (m) => `
       <article class="menu-card bg-paper rounded-2xl border-2 border-ink p-5">
           <div class="flex items-baseline justify-between gap-2">
-            <h3 class="font-display font-bold text-lg text-ink leading-tight">${m.name}</h3>
-            <span class="font-display font-bold text-chili shrink-0">${m.price}</span>
+            <h3 class="font-display font-bold text-lg text-ink leading-tight">${escapeHTML(m.name)}</h3>
+            <span class="font-display font-bold text-chili shrink-0">${escapeHTML(m.price)}</span>
           </div>
-          ${m.th ? `<p class="font-hand text-base text-n-500 leading-none -mt-0.5">${m.th}</p>` : ""}
-          <p class="text-sm text-n-600 mt-1.5 leading-snug">${m.desc}</p>
-          <div class="mt-3">
-            <span class="inline-flex items-center gap-0.5">${spiceRow(m.spice)}</span>
-          </div>
+          ${m.th ? `<p class="font-hand text-base text-n-500 leading-none -mt-0.5">${escapeHTML(m.th)}</p>` : ""}
+          <p class="text-sm text-n-600 mt-1.5 leading-snug">${escapeHTML(m.desc)}</p>
+          ${m.name in JAIWAI_SPICE ? `<div class="mt-3">
+            <span class="inline-flex items-center gap-0.5">${spiceRow(JAIWAI_SPICE[m.name])}</span>
+          </div>` : ""}
       </article>`
     )
     .join("");
@@ -55,49 +118,9 @@ function renderMenuCards(cat = "all", gridId = "menuGrid") {
   if (window.lucide) lucide.createIcons();
 }
 
+/** Menu page: the sections Kora drew scroll in like the rest of the page. */
 function renderMenuList() {
-  const container = document.getElementById("menuPageSections");
-  if (!container || !window.JAIWAI_MENU || !window.JAIWAI_MENU_SECTIONS) return;
-
-  container.innerHTML = window.JAIWAI_MENU_SECTIONS.map((section) => {
-    const items = window.JAIWAI_MENU.filter((m) => m.cat === section.id);
-    if (!items.length) return "";
-
-    return `
-      <section class="mb-14 reveal" id="${section.id}">
-        <h2 class="font-display font-extrabold text-ink text-3xl sm:text-4xl mb-2 border-b-2 border-noodle pb-2">${section.title}</h2>
-        ${section.note ? `<p class="text-sm text-n-600 mb-6">${section.note}</p>` : '<div class="mb-6"></div>'}
-        <div class="space-y-5">
-          ${items
-            .map(
-              (m) => `
-            <div class="menu-list-item flex justify-between items-start gap-4">
-              <div class="min-w-0">
-                <h3 class="font-display font-bold text-lg text-ink">${m.name}</h3>
-                ${m.th ? `<p class="font-hand text-base text-n-500">${m.th}</p>` : ""}
-                <p class="text-sm text-n-600 mt-1">${m.desc}</p>
-              </div>
-              <span class="font-display font-bold text-chili shrink-0">${m.price}</span>
-            </div>`
-            )
-            .join("")}
-        </div>
-      </section>`;
-  }).join("");
-}
-
-function initMenuTabs() {
-  const tabs = document.getElementById("menuTabs");
-  if (!tabs || tabs.dataset.bound) return;
-  tabs.dataset.bound = "true";
-
-  tabs.addEventListener("click", (e) => {
-    const btn = e.target.closest(".tab");
-    if (!btn) return;
-    document.querySelectorAll("#menuTabs .tab").forEach((t) => t.classList.remove("is-active"));
-    btn.classList.add("is-active");
-    renderMenuCards(btn.dataset.cat);
-  });
+  document.querySelectorAll("#menuPageSections .kora-menu__section").forEach((s) => s.classList.add("reveal"));
 }
 
 function initNavbarScroll() {
@@ -247,12 +270,11 @@ function onReady(callback) {
 onReady(() => {
   initNavbarScroll();
   initMobileDrawer();
-  initMenuTabs();
   initReveal();
   initBookingForm();
   initSpecialSpice();
   initFaqAccordion();
-  renderMenuCards("all");
+  renderMenuCards();
   renderMenuList();
   initLucide();
 });

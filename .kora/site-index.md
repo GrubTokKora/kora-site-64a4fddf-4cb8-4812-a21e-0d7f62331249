@@ -37,9 +37,7 @@ Files that are not pages. A line marked [content] holds words or data a visitor 
 change to the site's content can land there; the rest only make the site work or look right.
 - `robots.txt` — 91 bytes — too small to hold content
 - `sitemap.xml` — Search engine sitemap listing website URLs
-- `style.css` — Site styling and CSS helper classes for layout, typography, colors, and animations
 - `js/main.js` — UI behavior, event handlers, rendering logic, and component initialization
-- `js/menu-data.js` — the restaurant's full menu including dishes, descriptions, prices, and categories: Spring Rolls (Shrimp or Tofu), Egg Rolls (Pork or Vegetable), Cheese Rolls (Fried), Dumplings (Steam or Fried), Shrimp Tempura, Chicken Satay, Pork Skewers, Tom Yum (Red Soup), Tom Kha (Coconut Soup), Thai Fried Rice, Green Curry Fried Rice, Basil Fried Rice, Pineapple Fried Rice, Tiger Cry (Regular / Rib-eye), Jaiwai Rib-eye Pad Kra Pow, Jaiwai Special Pad Kra Pow, Chicken Khao Soi (Regular / Fried Chicken), Grilled / Fried Salmon Paradise, Papaya Salad, Beef Nam Tok (Regular / Rib-eye), Green Curry, Red Curry, Yellow Curry, Spicy Cashew Fever, Buddha Delight, Pad Kra Prow (Hot Basil), Beef Broccoli, Sesame Teriyaki Chicken, Pra Ram Chicken, Prik King, Pad Thai, Pad Kee Mao (Drunken Noodles), Pad See Ew, Angel Hair Pad Kee Mao, Pad Woon Sen, Mango Sticky Rice, Kids Chicken Fried Rice, Chicken Nuggets & French Fries  [content]
 
 ## shared (every page)
 The header, navigation, mobile menu and footer are propagated from index.html to every other page by
