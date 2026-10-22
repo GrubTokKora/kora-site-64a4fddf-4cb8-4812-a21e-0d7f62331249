@@ -42,9 +42,9 @@
   --color-n-600: #675b49;
   --color-n-700: #4a4034;
 
-  --font-display: "Baloo 2", sans-serif;
-  --font-body: "Nunito Sans", sans-serif;
-  --font-hand: "Caveat", cursive;
+  --font-display: var(--kora-font-heading, "Baloo 2"), sans-serif;
+  --font-body: var(--kora-font-body, "Nunito Sans"), sans-serif;
+  --font-hand: var(--kora-font-accent, "Caveat"), cursive;
 
   --radius-pill: 999px;
   --radius-blob: 60% 40% 55% 45% / 55% 45% 55% 45%;
@@ -69,17 +69,17 @@ html {
 }
 
 body {
-  font-family: "Nunito Sans", sans-serif;
+  font-family: var(--kora-font-body, "Nunito Sans"), sans-serif;
   background: #fbf6ee;
   color: #2e2820;
 }
 
 .font-display {
-  font-family: "Baloo 2", sans-serif;
+  font-family: var(--kora-font-heading, "Baloo 2"), sans-serif;
 }
 
 .font-hand {
-  font-family: "Caveat", cursive;
+  font-family: var(--kora-font-accent, "Caveat"), cursive;
 }
 
 ::selection {
@@ -227,7 +227,7 @@ body {
 
 /* Component-styled controls */
 .tab {
-  font-family: "Baloo 2", sans-serif;
+  font-family: var(--kora-font-heading, "Baloo 2"), sans-serif;
   font-weight: 700;
   font-size: 15px;
   color: #4a4034;
@@ -251,7 +251,7 @@ body {
 
 .field {
   width: 100%;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: var(--kora-font-body, "Nunito Sans"), sans-serif;
   font-size: 16px;
   color: #1a1714;
   background: #fff;
@@ -403,7 +403,7 @@ body {
   margin: 0 0 1.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid #f4c430;
-  font-family: "Baloo 2", sans-serif;
+  font-family: var(--kora-font-heading, "Baloo 2"), sans-serif;
   font-weight: 800;
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -428,19 +428,19 @@ body {
   grid-column: 1;
   grid-row: 1;
   margin: 0;
-  font-family: "Baloo 2", sans-serif;
+  font-family: var(--kora-font-heading, "Baloo 2"), sans-serif;
   font-weight: 700;
   font-size: 1.125rem;
   line-height: 1.75rem;
   color: #1a1714;
 }
 #menuPageSections .kora-menu .kora-menu__item-price,
-#menuPageSections .kora-menu .kora-menu__prices { grid-column: 2; grid-row: 1; font-family: "Baloo 2", sans-serif; font-weight: 700; color: #e5283a; }
+#menuPageSections .kora-menu .kora-menu__prices { grid-column: 2; grid-row: 1; font-family: var(--kora-font-heading, "Baloo 2"), sans-serif; font-weight: 700; color: #e5283a; }
 #menuPageSections .kora-menu .kora-menu__item-note {
   grid-column: 1;
   grid-row: 2;
   margin: 0;
-  font-family: "Caveat", cursive;
+  font-family: var(--kora-font-accent, "Caveat"), cursive;
   font-style: normal;
   font-size: 1rem;
   line-height: 1.5rem;
